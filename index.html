@@ -503,17 +503,15 @@ function renderDeals() {
     const stages = getStagesForFunnel(d.funnel);
     const stage = getStage(d.stage, d.funnel);
     const base = getBase(d.comm, d.funnel);
-    const earn = stage.inPotential ? base * rate / 100 * stage.weight : 0;
+    const fullEarn = base * rate / 100;
 
     const stageSelect = `<select onchange="changeStage(${i},this.value)"
       style="background:${stage.bg};border:1px solid ${stage.color}55;border-radius:7px;padding:4px 7px;color:${stage.color};font-size:11px;font-weight:600;font-family:'Golos Text',sans-serif;outline:none;cursor:pointer;max-width:180px;">
       ${stages.map(s=>`<option value="${s.id}" ${s.id===d.stage?'selected':''}>${s.label}</option>`).join('')}
     </select>`;
 
-    const earnCell = stage.inPotential
-      ? `<span style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:13px;color:${stage.weight>=0.7?'var(--accent3)':'var(--accent2)'}">${fmt(earn)}</span>
-         <span style="font-size:9px;color:var(--muted);display:block">${stage.weight>=0.7?'🔥':'·'} ${Math.round(stage.weight*100)}%</span>`
-      : `<span style="color:var(--muted);font-size:11px">начало работы</span>`;
+    const earnCell = `<span style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:13px;color:var(--accent3)">${fmt(fullEarn)}</span>
+      <span style="font-size:9px;color:var(--muted);display:block">если закроется</span>`;
 
     return `<tr>
       <td style="font-weight:500;font-size:13px">${d.name}</td>
@@ -532,7 +530,7 @@ function renderDeals() {
     const stages = getStagesForFunnel(d.funnel);
     const stage = getStage(d.stage, d.funnel);
     const base = getBase(d.comm, d.funnel);
-    const earn = stage.inPotential ? base * rate / 100 * stage.weight : 0;
+    const fullEarn = base * rate / 100;
 
     const stageSelect = `<select onchange="changeStage(${i},this.value)"
       style="background:${stage.bg};border:1px solid ${stage.color}55;border-radius:7px;padding:5px 8px;color:${stage.color};font-size:12px;font-weight:600;font-family:'Golos Text',sans-serif;outline:none;cursor:pointer;width:100%;margin-top:8px;">
@@ -557,7 +555,7 @@ function renderDeals() {
       ${stageSelect}
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
         <span style="color:var(--muted);font-size:12px">Заработок</span>
-        <span class="deal-mobile-earn" style="color:${stage.inPotential&&stage.weight>=0.7?'var(--accent3)':'var(--accent2)'}">${stage.inPotential?fmt(earn):'—'}</span>
+        <span class="deal-mobile-earn" style="color:var(--accent3)">${fmt(fullEarn)}</span>
       </div>
     </div>`;
   }).join('');
